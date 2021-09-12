@@ -1,11 +1,9 @@
 import os
 import telebot
 import openpyxl
-from dotenv import load_dotenv
+from settings import API_KEY
 import UsUniDetailsdotxlsx
-load_dotenv()
 
-API_KEY = os.getenv('API_KEY')
 bot = telebot.TeleBot(API_KEY)
 
 @bot.message_handler(commands=['start'])
