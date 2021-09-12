@@ -30,7 +30,7 @@ def comparison(message):
       ApplicationFee = str(MainSheet.cell(row=i,column=3).value)
       TutionFee = str(MainSheet.cell(row=i,column=4).value)
 
-      bot.send_message(message.chat.id, 'College Name: ' + CollegeNameFinal + '\nApplication Fee: $' + ApplicationFee + '\nTution Fee/Year: $' + TutionFee)
+      bot.send_message(message.chat.id, 'College Name: ' + CollegeNameFinal + '\nApplication Fee: ' + ApplicationFee + '\nTution Fee/Year: ' + TutionFee)
       count = count+1
 
     CollegeName = list()
