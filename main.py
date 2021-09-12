@@ -17,7 +17,7 @@ def uniname(message):
 def comparison(message):
   collegeByUser = message.text
   collegeByUserLower = collegeByUser.lower()
-  wb = openpyxl.load_workbook('US Uni Details.xlsx')
+  wb = openpyxl.load_workbook('USUniDetails.xlsx')
   MainSheet = wb['Sheet1']
   CollegeName = list()
   count = 0
