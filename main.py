@@ -38,5 +38,5 @@ def comparison(message):
     bot.send_message(message.chat.id, 'No details found')
     bot.send_message(message.chat.id, 'For more information, contact a consultancy near you or check the University website.\nTo search for another University, tap /universitysearch')
   else:
-    bot.send_message(message.chat.id, 'This estimate is an approximation and is not guaranteed. For more details, contact a consultancy near you or check the University website.\nTo search for another University, tap /universitysearch')
+    bot.send_message(message.chat.id, 'This is an estimate and is not guaranteed. For more details, contact a consultancy near you or check the University website.\nTo search for another University, tap /universitysearch')
 bot.polling()
