@@ -2,7 +2,6 @@ import os
 import telebot
 import openpyxl
 from settings import API_KEY
-import UsUniDetailsdotxlsx
 
 bot = telebot.TeleBot(API_KEY)
 
