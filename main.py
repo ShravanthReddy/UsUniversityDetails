@@ -37,6 +37,6 @@ def comparison(message):
   if count == 0:
     bot.send_message(message.chat.id, 'No details found')
     bot.send_message(message.chat.id, 'For more information, contact a consultancy near you or check the University website.\nTo search for another University, tap /universitysearch')
-  else
+  else:
     bot.send_message(message.chat.id, 'This estimate is an approximation and is not guaranteed. For more details, contact a consultancy near you or check the University website.\nTo search for another University, tap /universitysearch')
 bot.polling()
