@@ -2,6 +2,7 @@ import os
 import telebot
 import openpyxl
 from dotenv import load_dotenv
+import UsUniDetailsdotxlsx
 load_dotenv()
 
 API_KEY = os.getenv('API_KEY')
