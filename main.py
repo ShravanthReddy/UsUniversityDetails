@@ -1,9 +1,11 @@
 import os
 import telebot
+from telebot import apihelper
 import openpyxl
 from settings import API_KEY
 
 bot = telebot.TeleBot(API_KEY)
+apihelper.SESSION_TIME_TO_LIVE = 60 * 5
 
 @bot.message_handler(commands=['start'])
 def start(message):
