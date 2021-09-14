@@ -39,7 +39,9 @@ def check(message):
     UniversitySearch(message)
   elif message.text == optionB:
     afwUni(message)
-
+  else:
+    bot.send_message(message.chat.id, 'Wrong option selected, please try again')
+    cont(message)
 
 def UniversitySearch(message):
   msg = bot.send_message(message.chat.id, 'Please enter the University name or city')
@@ -60,6 +62,9 @@ def check2(message):
     afwAll(message)
   elif message.text == optionE:
     cont(message)
+  else:
+    bot.send_message(message.chat.id, 'Wrong option selected, please try again')
+    afwUni(message)
 
 def constants(message):
   collegeByUser = message.text
