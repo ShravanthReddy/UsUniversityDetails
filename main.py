@@ -3,15 +3,18 @@ from telebot import apihelper, types
 import openpyxl
 from settings import API_KEY
 
+#Bot Initialization
 bot = telebot.TeleBot(API_KEY)
 apihelper.SESSION_TIME_TO_LIVE = 60 * 5
 
+#Initializing Keyboard Markup buttons text
 optionA = 'Search University by name or City'
 optionB = 'Search Universities offering application fee waiver'
 optionC = 'Search by name or city'
 optionD = 'All Universities'
 optionE = 'Go Back'
 
+#Initializing Keyboard Markup buttons
 markup = types.ReplyKeyboardMarkup(row_width=1, one_time_keyboard=True)
 itembtn1 = types.KeyboardButton(optionA)
 itembtn2 = types.KeyboardButton(optionB)
@@ -23,7 +26,7 @@ itembtn4 = types.KeyboardButton(optionD)
 itembtn5 = types.KeyboardButton(optionE)
 markup1.add(itembtn3, itembtn4, itembtn5)
 
-
+#Start of the program
 @bot.message_handler(commands=['start'])
 def start(message):
   reply = bot.send_message(message.chat.id, 'Hello, welcome!\nHere, you can find Application & Tution fee details of various Universities.\nChoose an option to continue: ', reply_markup=markup)
@@ -34,6 +37,7 @@ def cont(message):
   reply = bot.send_message(message.chat.id,'Choose an option to continue: ', reply_markup=markup)
   bot.register_next_step_handler(reply, check)
 
+#Checking the option selected in first page
 def check(message):
   if message.text == optionA:
     UniversitySearch(message)
@@ -42,17 +46,8 @@ def check(message):
   else:
     bot.send_message(message.chat.id, 'Wrong option selected, please try again')
     cont(message)
-
-def UniversitySearch(message):
-  msg = bot.send_message(message.chat.id, 'Please enter the University name or city')
-  bot.register_next_step_handler(msg, universitySearch)
-
-
-def afwUni(message):
-  reply2 = bot.send_message(message.chat.id, 'Choose one below: ', reply_markup=markup1)
-  bot.register_next_step_handler(reply2, check2)
-
-
+    
+#Checking the option selected in second page    
 def check2(message):
   if message.text == optionC:
     reply2 = bot.send_message(message.chat.id, 'Please enter the University name or city')
@@ -65,19 +60,30 @@ def check2(message):
   else:
     bot.send_message(message.chat.id, 'Wrong option selected, please try again')
     afwUni(message)
+    
+#Function to capture user input for university name or city
+def UniversitySearch(message):
+  msg = bot.send_message(message.chat.id, 'Please enter the University name or city')
+  bot.register_next_step_handler(msg, universitySearch)
 
+#Function which displays page two options
+def afwUni(message):
+  reply2 = bot.send_message(message.chat.id, 'Choose one below: ', reply_markup=markup1)
+  bot.register_next_step_handler(reply2, check2)
+
+#Function to capture user input and change it to lower text
 def constants(message):
   collegeByUser = message.text
   collegeByUserLower = collegeByUser.lower()
   return collegeByUserLower
 
-
+#Function to initialize excel file
 def excel():
   wb = openpyxl.load_workbook('USUniDetails.xlsx')
   MainSheet = wb['Sheet1']
   return MainSheet
 
-
+#University search by name or city
 def universitySearch(message):
   MainSheet = excel()
   collegeByUserLower = constants(message)
@@ -97,7 +103,7 @@ def universitySearch(message):
     collegeName = list()
   endMessage(message, count)
 
-
+#AFW university search by name or city
 def afwUniversitySearch(message):
   MainSheet = excel()
   collegeByUserLower = constants(message)
@@ -117,7 +123,7 @@ def afwUniversitySearch(message):
     collegeName = list()
   endMessage(message, count)
 
-
+#AFW all universities
 def afwAll(message):
   MainSheet = excel()
   collegeName = list()
@@ -134,7 +140,7 @@ def afwAll(message):
     collegeName = list()
   endMessage(message, count)
 
-
+#End message
 def endMessage(message, count):
   if count == 0:
     bot.send_message(message.chat.id, 'No details found')
@@ -142,6 +148,14 @@ def endMessage(message, count):
   else:
     bot.send_message(message.chat.id, 'This is an estimate and is not guaranteed. For more details, contact a consultancy near you or check the University website.\nTo continue searching for universities, tap /continue')
 
-if message != '/continue'
-    bot.send_message(message.chat.id, 'wrong input, please try again. \nTo continue searching for universities, tap /continue') 
+  bot.register_next_step_handler(message, endError)
+
+#Wrong input error
+def endError(message):
+  if message.text != '/continue':
+    bot.send_message(message.chat.id, 'Wrong input, please try again. \nTo continue searching for universities, tap /continue')
+    bot.register_next_step_handler(message, endError)
+  else:
+    cont(message)
+
 bot.polling()
