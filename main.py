@@ -68,7 +68,7 @@ def constants(message):
 
 
 def excel():
-  wb = openpyxl.load_workbook('US Uni Details.xlsx')
+  wb = openpyxl.load_workbook('USUniDetails.xlsx')
   MainSheet = wb['Sheet1']
   return MainSheet
 
@@ -86,7 +86,7 @@ def universitySearch(message):
       ApplicationFee = str(MainSheet.cell(row=i, column=3).value)
       TutionFee = str(MainSheet.cell(row=i, column=4).value)
 
-      bot.send_message(message.chat.id, 'College Name: ' + CollegeNameFinal + '\nApplication Fee: $' + ApplicationFee + '\nTution Fee/Year: $' + TutionFee)
+      bot.send_message(message.chat.id, 'College Name: ' + CollegeNameFinal + '\nApplication Fee: ' + ApplicationFee + '\nTution Fee/Year: ' + TutionFee)
       count = count + 1
 
     collegeName = list()
@@ -107,7 +107,7 @@ def afwUniversitySearch(message):
       if any(collegeByUserLower in word for word in converted_list):
         CollegeNameFinal = ''.join(collegeName)
 
-        bot.send_message(message.chat.id, 'College Name: ' + CollegeNameFinal + '\nApplication Fee: $' + ApplicationFee + '\nTution Fee/Year: $' + TutionFee)
+        bot.send_message(message.chat.id, 'College Name: ' + CollegeNameFinal + '\nApplication Fee: ' + ApplicationFee + '\nTution Fee/Year: ' + TutionFee)
         count = count + 1
     collegeName = list()
   endMessage(message, count)
@@ -124,7 +124,7 @@ def afwAll(message):
     if ApplicationFee == 'AFW' or ApplicationFee == 'Free':
       CollegeNameFinal = ''.join(collegeName)
 
-      bot.send_message(message.chat.id, 'College Name: ' + CollegeNameFinal + '\nApplication Fee: $' + ApplicationFee + '\nTution Fee/Year: $' + TutionFee)
+      bot.send_message(message.chat.id, 'College Name: ' + CollegeNameFinal + '\nApplication Fee: ' + ApplicationFee + '\nTution Fee/Year: ' + TutionFee)
       count = count + 1
     collegeName = list()
   endMessage(message, count)
