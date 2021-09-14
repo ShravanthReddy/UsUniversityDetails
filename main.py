@@ -142,4 +142,6 @@ def endMessage(message, count):
   else:
     bot.send_message(message.chat.id, 'This is an estimate and is not guaranteed. For more details, contact a consultancy near you or check the University website.\nTo continue searching for universities, tap /continue')
 
+if message != '/continue'
+    bot.send_message(message.chat.id, 'wrong input, please try again. \nTo continue searching for universities, tap /continue') 
 bot.polling()
