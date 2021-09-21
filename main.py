@@ -152,10 +152,12 @@ def endMessage(message, count):
 
 #Wrong input error
 def endError(message):
-  if message.text != '/continue':
+    if message.text == '/continue':
+    cont(message)
+  elif message.text == '/start':
+    start(message)
+  else:
     bot.send_message(message.chat.id, 'Wrong input, please try again. \nTo continue searching for universities, tap /continue')
     bot.register_next_step_handler(message, endError)
-  else:
-    cont(message)
 
 bot.polling()
