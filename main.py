@@ -152,7 +152,7 @@ def endMessage(message, count):
 
 #Wrong input error
 def endError(message):
-    if message.text == '/continue':
+  if message.text == '/continue':
     cont(message)
   elif message.text == '/start':
     start(message)
