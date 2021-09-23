@@ -1,11 +1,11 @@
 import telebot
-from telebot import apihelper, types
+from telebot import types
 import openpyxl
 from settings import API_KEY
 
 #Bot Initialization
 bot = telebot.TeleBot(API_KEY)
-apihelper.SESSION_TIME_TO_LIVE = 60 * 5
+bot.SESSION_TIME_TO_LIVE = 60 * 5
 
 #Initializing Keyboard Markup buttons text
 optionA = 'Search University by name or City'
