@@ -1,11 +1,11 @@
 import telebot
-from telebot import types
+from telebot import apihelper, types
 import openpyxl
 from settings import API_KEY
 
 #Bot Initialization
 bot = telebot.TeleBot(API_KEY)
-bot.SESSION_TIME_TO_LIVE = 60 * 5
+apihelper.SESSION_TIME_TO_LIVE = 60 * 5
 
 #Initializing Keyboard Markup buttons text
 optionA = 'Search University by name or City'
@@ -36,6 +36,10 @@ def start(message):
 def cont(message):
   reply = bot.send_message(message.chat.id,'Choose an option to continue: ', reply_markup=markup)
   bot.register_next_step_handler(reply, check)
+  
+@bot.message_handler(func=lambda message: True)
+def all(message):
+  bot.send_message(message.chat.id, 'Wrong input, please try again. \nTo search for university details, tap /continue or /start')
 
 #Checking the option selected in first page
 def check(message):
@@ -148,16 +152,4 @@ def endMessage(message, count):
   else:
     bot.send_message(message.chat.id, 'This is an estimate and is not guaranteed. For more details, contact a consultancy near you or check the University website.\nTo continue searching for universities, tap /continue')
 
-  bot.register_next_step_handler(message, endError)
-
-#Wrong input error
-def endError(message):
-  if message.text == '/continue':
-    cont(message)
-  elif message.text == '/start':
-    start(message)
-  else:
-    bot.send_message(message.chat.id, 'Wrong input, please try again. \nTo continue searching for universities, tap /continue')
-    bot.register_next_step_handler(message, endError)
-
-bot.polling()
+bot.polling(none_stop=False, interval=0, timeout=20)
