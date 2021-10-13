@@ -128,7 +128,7 @@ while True:
       for i in range(0, collegeByUserLowerLength):
           for j in range(0, length2):
               #print('User Input Word: ', userInputList[i], end=" ")
-              if finalCollegeName[j] != 'university' and finalCollegeName[j] != 'of' and finalCollegeName[j] != '(web)' and finalCollegeName[j] != 'at' and finalCollegeName[j] != 'state' and finalCollegeName[j] == collegeByUserLower[i]:
+              if finalCollegeName[j] != 'university' and finalCollegeName[j] != 'of' and finalCollegeName[j] != '(web)' and finalCollegeName[j] != 'at' and finalCollegeName[j] == collegeByUserLower[i]:
                   #print("Matched with ", finalCollegeName[i], end="")
                   count = count+1
 
@@ -177,7 +177,7 @@ while True:
         for i in range(0, collegeByUserLowerLength):
           for j in range(0, length2):
               #print('User Input Word: ', userInputList[i], end=" ")
-              if finalCollegeName[j] != 'university' and finalCollegeName[j] != 'of' and finalCollegeName[j] != '(web)' and finalCollegeName[j] != 'at' and finalCollegeName[j] != 'state' and finalCollegeName[j] == collegeByUserLower[i]:
+              if finalCollegeName[j] != 'university' and finalCollegeName[j] != 'of' and finalCollegeName[j] != '(web)' and finalCollegeName[j] != 'at' and finalCollegeName[j] == collegeByUserLower[i]:
                   #print("Matched with ", finalCollegeName[i], end="")
                   count = count+1
 
