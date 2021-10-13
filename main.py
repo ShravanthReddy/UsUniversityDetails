@@ -88,46 +88,115 @@ while True:
     wb = openpyxl.load_workbook('USUniDetails.xlsx')
     MainSheet = wb['Sheet1']
     return MainSheet
+  
+  #String Split function
+  def stringSplit(inputString):
+    finalStringList = list()
+    #print(inputString)
+    splitInputString = inputString.split(',')
+    spiltInputStringLen = len(splitInputString)
+    #print(splitInputString)
+
+    for i in range(0, spiltInputStringLen):
+            splitInputStringWithSpaces = splitInputString[i].split()
+            finalStringList = finalStringList + [x.lower () for x in splitInputStringWithSpaces]
+    return finalStringList
 
   #University search by name or city
   def universitySearch(message):
     MainSheet = excel()
-    collegeByUserLower = constants(message)
+    collegeByUserLowerA = constants(message)
+    collegeByUserLower = list()
+    collegeByUserLower = stringSplit(collegeByUserLowerA)
+    collegeByUserLowerLength = len(collegeByUserLower)
     collegeName = list()
     count = 0
-    for i in range(1, 329):
-      collegeName.append(MainSheet.cell(row=i, column=2).value)
-      converted_list = [x.lower() for x in collegeName]
-      if any(collegeByUserLower in word for word in converted_list):
-        CollegeNameFinal = ''.join(collegeName)
-        ApplicationFee = str(MainSheet.cell(row=i, column=3).value)
-        TutionFee = str(MainSheet.cell(row=i, column=4).value)
-
-        bot.send_message(message.chat.id, 'College Name: ' + CollegeNameFinal + '\nApplication Fee: ' + ApplicationFee + '\nTution Fee/Year: ' + TutionFee)
-        count = count + 1
-
+    maxcount = 0
+    final = 0
+    collegeMatchList = {}
+    applicationFeeList = {}
+    tutionFeeList = {}
+    for college in range(1, 329):
       collegeName = list()
-    endMessage(message, count)
+      collegeName.append(MainSheet.cell(row=college, column=2).value)
+      finalCollegeName = list()
+      collegeNameString = ''.join(collegeName)
+      finalCollegeName = stringSplit(collegeNameString)
+      length2 = len(finalCollegeName)
+      count = 0
+
+      for i in range(0, collegeByUserLowerLength):
+          for j in range(0, length2):
+              #print('User Input Word: ', userInputList[i], end=" ")
+              if finalCollegeName[j] != 'university' and finalCollegeName[j] != 'of' and finalCollegeName[j] != '(web)' and finalCollegeName[j] != 'state' and finalCollegeName[j] == collegeByUserLower[i]:
+                  #print("Matched with ", finalCollegeName[i], end="")
+                  count = count+1
+
+      if count > 0:
+          collegeMatchList[collegeNameString] = count 
+          applicationFeeList[collegeNameString] = str(MainSheet.cell(row=college, column=3).value)
+          tutionFeeList[collegeNameString] = str(MainSheet.cell(row=college, column=4).value)
+
+      if count > maxcount:
+          maxcount = count
+
+    for collegeName, count in collegeMatchList.items():
+      if count == maxcount:
+          applicationFee = applicationFeeList.get(collegeName)
+          tutionFee = tutionFeeList.get(collegeName)
+          bot.send_message(message.chat.id, 'College Name: ' + collegeName + '\nApplication Fee: ' + applicationFee + '\nTution Fee/Year: ' + tutionFee)
+          final = final+1
+
+    endMessage(message, final)
 
   #AFW university search by name or city
   def afwUniversitySearch(message):
     MainSheet = excel()
-    collegeByUserLower = constants(message)
+    collegeByUserLowerA = constants(message)
+    collegeByUserLower = list()
+    collegeByUserLower = stringSplit(collegeByUserLowerA)
+    collegeByUserLowerLength = len(collegeByUserLower)
     collegeName = list()
     count = 0
-    for i in range(1, 329):
-      collegeName.append(MainSheet.cell(row=i, column=2).value)
-      converted_list = [x.lower() for x in collegeName]
-      ApplicationFee = str(MainSheet.cell(row=i, column=3).value)
-      TutionFee = str(MainSheet.cell(row=i, column=4).value)
-      if ApplicationFee == 'AFW' or ApplicationFee == 'Free':
-        if any(collegeByUserLower in word for word in converted_list):
-          CollegeNameFinal = ''.join(collegeName)
-
-          bot.send_message(message.chat.id, 'College Name: ' + CollegeNameFinal + '\nApplication Fee: ' + ApplicationFee + '\nTution Fee/Year: ' + TutionFee)
-          count = count + 1
+    maxcount = 0
+    final = 0
+    collegeMatchList = {}
+    applicationFeeList = {}
+    tutionFeeList = {}
+    for college in range(1, 329):
       collegeName = list()
-    endMessage(message, count)
+      collegeName.append(MainSheet.cell(row=college, column=2).value)
+      finalCollegeName = list()
+      collegeNameString = ''.join(collegeName)
+      finalCollegeName = stringSplit(collegeNameString)
+      length2 = len(finalCollegeName)
+      count = 0
+      ApplicationFee = str(MainSheet.cell(row=college, column=3).value)
+      TutionFee = str(MainSheet.cell(row=college, column=4).value)
+      if ApplicationFee == 'AFW' or ApplicationFee == 'Free':
+        for i in range(0, collegeByUserLowerLength):
+          for j in range(0, length2):
+              #print('User Input Word: ', userInputList[i], end=" ")
+              if finalCollegeName[j] != 'university' and finalCollegeName[j] != 'of' and finalCollegeName[j] != '(web)' and finalCollegeName[j] == collegeByUserLower[i]:
+                  #print("Matched with ", finalCollegeName[i], end="")
+                  count = count+1
+
+      if count > 0:
+          collegeMatchList[collegeNameString] = count 
+          applicationFeeList[collegeNameString] = ApplicationFee
+          tutionFeeList[collegeNameString] = TutionFee
+
+      if count > maxcount:
+          maxcount = count
+
+    for collegeName, count in collegeMatchList.items():
+      if count == maxcount:
+          applicationFee = applicationFeeList.get(collegeName)
+          tutionFee = tutionFeeList.get(collegeName)
+          bot.send_message(message.chat.id, 'College Name: ' + collegeName + '\nApplication Fee: ' + applicationFee + '\nTution Fee/Year: ' + tutionFee)
+          final = final+1
+
+    endMessage(message, final)
 
   #AFW all universities
   def afwAll(message):
